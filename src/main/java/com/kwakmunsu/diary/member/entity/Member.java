@@ -10,10 +10,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class Member extends BaseTimeEntity {
 
@@ -36,5 +39,22 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "refresh_token")
     private String refreshToken;
+
+
+    @Builder
+    private Member(String email, String password, String nickname) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.role = Role.MEMBER;
+    }
+
+    public static Member createMember(String email, String password, String nickname) {
+        return Member.builder()
+                .email(email)
+                .password(password)
+                .nickname(nickname)
+                .build();
+    }
 
 }

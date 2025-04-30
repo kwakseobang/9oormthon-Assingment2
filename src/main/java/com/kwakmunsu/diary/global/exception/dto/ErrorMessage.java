@@ -9,8 +9,8 @@ public enum ErrorMessage {
     NOT_FOUND_MEMBER("ERROR - 회원을 찾을 수 없습니다."),
     BAD_REQUEST_MEMBER("ERROR - 잘못된 회원 요청"),
     BAD_REQUEST_PASSWORD("ERROR - 잘못된 비밀번호 요청"),
-    DUPLICATE_USERNAME("ERROR - 회원가입 ID 중복"),
-    DUPLICATE_NICKNAME("ERROR - 회원가입 닉네임 중복"),
+    DUPLICATE_EMAIL("ERROR - 회원가입 ID 중복: "),
+    DUPLICATE_NICKNAME("ERROR - 회원가입 닉네임 중복: "),
 
     // <=============== DIARY ===============>
     NOT_FOUND_DIARY("ERROR - 해당 일기를 찾을 수 없습니다."),
