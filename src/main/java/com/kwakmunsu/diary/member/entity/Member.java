@@ -57,4 +57,8 @@ public class Member extends BaseTimeEntity {
                 .build();
     }
 
+    public void updateRefreshToken(String newRefreshToken) {
+        this.refreshToken = newRefreshToken;
+    }
+
 }

@@ -8,6 +8,7 @@ import com.kwakmunsu.diary.global.exception.dto.ErrorMessage;
 import com.kwakmunsu.diary.member.entity.Member;
 import com.kwakmunsu.diary.member.service.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -15,16 +16,18 @@ import org.springframework.stereotype.Service;
 public class MemberCommandService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     public Long create(MemberCreateServiceRequest request) {
         String email = request.email();
         String nickname = request.nickname();
-        String password = request.password();
 
         validateEmail(email);
         validateNickname(nickname);
 
-        Member member = createMember(email, password, nickname);
+        String encodedPassword = bCryptPasswordEncoder.encode(request.password());
+
+        Member member = createMember(email, encodedPassword, nickname);
         return memberRepository.create(member);
     }
 
