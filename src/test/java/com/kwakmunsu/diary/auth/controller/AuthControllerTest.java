@@ -1,6 +1,7 @@
 package com.kwakmunsu.diary.auth.controller;
 
 import static com.kwakmunsu.diary.global.jwt.common.TokenType.REFRESH;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -20,6 +21,7 @@ import com.kwakmunsu.diary.global.exception.DiaryDuplicationException;
 import com.kwakmunsu.diary.global.exception.DiaryUnAuthenticationException;
 import com.kwakmunsu.diary.global.jwt.dto.TokenResponse;
 import com.kwakmunsu.diary.global.jwt.token.JwtProvider;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -196,6 +198,7 @@ class AuthControllerTest {
         mockMvc.perform(post(BASE_URL + "/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
+                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.validation.*").value(expectedMessage));
     }
@@ -205,6 +208,29 @@ class AuthControllerTest {
                 .email(email)
                 .password(password)
                 .build();
+    }
+
+    @DisplayName("AT와 RT를 재발급하고 RT는 쿠키에 저장한다")
+    @Test
+    void reissueToken() throws Exception {
+        // given
+        String testRefreshToken = "testRefreshToken";
+        TokenResponse testTokenResponse = TokenResponse.builder()
+                .accessToken("testAccessToken")
+                .refreshToken(testRefreshToken)
+                .build();
+
+        given(authQueryService.reissue(any())).willReturn(testTokenResponse);
+
+        // expected
+        mockMvc.perform(
+                        post(BASE_URL + "/reissue")
+                                .cookie(new Cookie("refreshToken", testRefreshToken))
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("testAccessToken"))
+                .andExpect(cookie().value(REFRESH.getValue(), testRefreshToken));
     }
 
 }

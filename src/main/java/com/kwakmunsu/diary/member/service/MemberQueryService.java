@@ -29,4 +29,8 @@ public class MemberQueryService {
         }
     }
 
+    public Member findByRefreshToken(String refreshToken) {
+        return memberRepository.findByRefreshToken(refreshToken);
+    }
+
 }

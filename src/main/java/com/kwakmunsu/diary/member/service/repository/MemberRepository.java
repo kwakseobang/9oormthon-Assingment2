@@ -5,8 +5,13 @@ import com.kwakmunsu.diary.member.entity.Member;
 public interface MemberRepository {
 
     Long create(Member member);
+
     Member findByEmail(String email);
+
     boolean existsByEmail(String email);
+
     boolean existsByNickname(String nickname);
+
+    Member findByRefreshToken(String refreshToken);
 
 }

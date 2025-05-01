@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +45,18 @@ public class AuthController {
             @Valid @RequestBody MemberLoginRequest request
     ) {
         TokenResponse tokenResponse = authQueryService.login(request.toServiceRequest());
+        // 같은 이름이 있다면 기존에 있던 쿠키 덮어짐.
+        addCookie(response, tokenResponse);
+
+        return ResponseEntity.ok(tokenResponse.accessToken());
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<String> reissue(
+            HttpServletResponse response,
+            @CookieValue("refreshToken") final String refreshToken
+    ) {
+        TokenResponse tokenResponse = authQueryService.reissue(refreshToken);
         // 같은 이름이 있다면 기존에 있던 쿠키 덮어짐.
         addCookie(response, tokenResponse);
 
