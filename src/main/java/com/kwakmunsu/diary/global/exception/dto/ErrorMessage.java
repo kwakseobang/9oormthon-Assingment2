@@ -27,10 +27,11 @@ public enum ErrorMessage {
     // <=============== ETC ===============>
     INTERNAL_SERVER_ERROR("ERROR - 서버 내부 에러"),
     UNAUTHORIZED_ERROR("ERROR - 인증되지 않은 사용자입니다."),
+    TOKEN_HASH_NOT_SUPPORTED("ERROR - 지원하지 않는 형식의 토큰"),
     FORBIDDEN_ERROR("ERROR - 접근 권한이 없습니다."),
     BAD_REQUEST_ARGUMENT("ERROR - 유효하지 않은 인자입니다."),
     ;
-
+가
     private final String message;
 
     ErrorMessage(String message) {
