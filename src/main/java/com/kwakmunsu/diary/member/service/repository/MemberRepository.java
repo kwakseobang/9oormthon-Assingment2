@@ -8,6 +8,8 @@ public interface MemberRepository {
 
     Member findByEmail(String email);
 
+    Member findById(Long memberId);
+
     boolean existsByEmail(String email);
 
     boolean existsByNickname(String nickname);

@@ -27,6 +27,14 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
+    public Member findById(Long memberId) {
+        return memberJpaRepository.findById(memberId)
+                .orElseThrow(() -> new DiaryNotFoundException(
+                        ErrorMessage.NOT_FOUND_MEMBER.getMessage())
+                );
+    }
+
+    @Override
     public boolean existsByEmail(String email) {
         return memberJpaRepository.existsByEmail(email);
     }

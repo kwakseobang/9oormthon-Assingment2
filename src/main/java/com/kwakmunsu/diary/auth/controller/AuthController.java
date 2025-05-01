@@ -6,6 +6,7 @@ import com.kwakmunsu.diary.auth.controller.dto.MemberCreateRequest;
 import com.kwakmunsu.diary.auth.controller.dto.MemberLoginRequest;
 import com.kwakmunsu.diary.auth.service.AuthCommandService;
 import com.kwakmunsu.diary.auth.service.AuthQueryService;
+import com.kwakmunsu.diary.global.annotation.CurrentLoginMember;
 import com.kwakmunsu.diary.global.jwt.dto.TokenResponse;
 import com.kwakmunsu.diary.util.CookieUtil;
 import jakarta.servlet.http.Cookie;
@@ -49,6 +50,19 @@ public class AuthController {
         addCookie(response, tokenResponse);
 
         return ResponseEntity.ok(tokenResponse.accessToken());
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(
+            @CurrentLoginMember Long memberId,
+            HttpServletResponse response
+    ) {
+        authCommandService.logout(memberId);
+
+        Cookie initCookie = CookieUtil.delete(REFRESH.getValue());
+        response.addCookie(initCookie);
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/reissue")

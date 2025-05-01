@@ -44,7 +44,7 @@ class AuthQueryServiceTest {
         TokenResponse testTokenResponse = new TokenResponse("testAccessToken", "testRefreshToken");
         Member testMember = create();
         given(jwtProvider.isNotValidateToken(any())).willReturn(false);
-        given(memberQueryService.findMember(any())).willReturn(testMember);
+        given(memberQueryService.findMember(any(MemberLoginServiceRequest.class))).willReturn(testMember);
         given(jwtProvider.createTokens(any(), any())).willReturn(testTokenResponse);
 
         // when

@@ -22,6 +22,10 @@ public class MemberQueryService {
         return member;
     }
 
+    public Member findMember(Long memberId) {
+        return memberRepository.findById(memberId);
+    }
+
     private void validatePassword(String rawPassword, String encryptedPassword) {
         // matches(평문 패스워드, 암호화 패스워드) 순서로 해야 됨.
         if (!bCryptPasswordEncoder.matches(rawPassword, encryptedPassword)) {
