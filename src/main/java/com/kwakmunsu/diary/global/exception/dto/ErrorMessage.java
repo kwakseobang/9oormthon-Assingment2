@@ -31,7 +31,7 @@ public enum ErrorMessage {
     FORBIDDEN_ERROR("ERROR - 접근 권한이 없습니다."),
     BAD_REQUEST_ARGUMENT("ERROR - 유효하지 않은 인자입니다."),
     ;
-가
+
     private final String message;
 
     ErrorMessage(String message) {
