@@ -1,5 +1,5 @@
 package com.kwakmunsu.diary.diary.entity;
 
-public enum AccessLevel {
+public enum AccessScope {
     PUBLIC, PRIVATE
 }
