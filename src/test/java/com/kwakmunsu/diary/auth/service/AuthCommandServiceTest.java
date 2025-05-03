@@ -12,7 +12,7 @@ import com.kwakmunsu.diary.global.exception.DiaryNotFoundException;
 import com.kwakmunsu.diary.global.exception.dto.ErrorMessage;
 import com.kwakmunsu.diary.member.entity.Member;
 import com.kwakmunsu.diary.member.service.MemberCommandService;
-import com.kwakmunsu.diary.member.service.MemberQueryService;
+import com.kwakmunsu.diary.member.service.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +27,7 @@ class AuthCommandServiceTest {
     private MemberCommandService memberCommandService;
 
     @Mock
-    private MemberQueryService memberQueryService;
+    private MemberRepository memberRepository;
 
     @InjectMocks
     private AuthCommandService authCommandService;
@@ -57,13 +57,13 @@ class AuthCommandServiceTest {
         // given
         Long testMemberId = 1L;
         Member testMember = create();
-        given(memberQueryService.findMember(any(Long.class))).willReturn(testMember);
+        given(memberRepository.findById(any(Long.class))).willReturn(testMember);
 
         // when
         authCommandService.logout(testMemberId);
 
         // then
-        verify(memberQueryService).findMember(testMemberId);
+        verify(memberRepository).findById(testMemberId);
         verify(testMember).updateRefreshToken(null);
     }
 
@@ -76,7 +76,7 @@ class AuthCommandServiceTest {
     void throwsExceptionWhenNotFoundMember() {
         // given
         Long testMemberId = 1L;
-        given(memberQueryService.findMember(any(Long.class)))
+        given(memberRepository.findById(any(Long.class)))
                 .willThrow(new DiaryNotFoundException(ErrorMessage.NOT_FOUND_MEMBER.getMessage()));
 
         // when & then
