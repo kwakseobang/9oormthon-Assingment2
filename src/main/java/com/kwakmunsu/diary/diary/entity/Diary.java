@@ -9,11 +9,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "diary")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "diaries")
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class Diary extends BaseTimeEntity {
 
@@ -31,7 +33,20 @@ public class Diary extends BaseTimeEntity {
     private String content;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "access_scope", nullable = false)
-    private Scope accessScope;
+    @Column(name = "access_level", nullable = false)
+    private AccessLevel accessLevel;
+
+    @Builder
+    private Diary(
+            Long memberId,
+            String title,
+            String content,
+            AccessLevel accessLevel
+    ) {
+        this.memberId = memberId;
+        this.title = title;
+        this.content = content;
+        this.accessLevel = accessLevel;
+    }
 
 }
