@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DiaryJpaRepository extends JpaRepository<Diary, Long> {
 
+    boolean existsByTitle(String title);
+
 }

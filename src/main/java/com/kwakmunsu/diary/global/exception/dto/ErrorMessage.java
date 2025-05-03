@@ -13,6 +13,7 @@ public enum ErrorMessage {
     DUPLICATE_NICKNAME("ERROR - 회원가입 닉네임 중복: "),
 
     // <=============== DIARY ===============>
+    DUPLICATE_TITLE("ERROR - 일기 제목 중복: "),
     NOT_FOUND_DIARY("ERROR - 해당 일기를 찾을 수 없습니다."),
     BAD_REQUEST_DIARY("ERROR - 잘못된 일기 요청"),
 
