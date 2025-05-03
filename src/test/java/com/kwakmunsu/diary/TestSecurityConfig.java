@@ -10,8 +10,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @TestConfiguration
 public class TestSecurityConfig {
 
-    private final String[] permitAllUrl = {"/", "/error", "/auth/**"};
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -19,7 +17,7 @@ public class TestSecurityConfig {
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(permitAllUrl).permitAll()
+                        .anyRequest().permitAll()
                 );
 
         return http.build();

@@ -6,16 +6,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import com.kwakmunsu.diary.auth.service.dto.MemberCreateServiceRequest;
 import com.kwakmunsu.diary.global.exception.DiaryNotFoundException;
-import com.kwakmunsu.diary.global.exception.DiaryUnAuthenticationException;
 import com.kwakmunsu.diary.global.exception.dto.ErrorMessage;
 import com.kwakmunsu.diary.member.entity.Member;
 import com.kwakmunsu.diary.member.service.MemberCommandService;
 import com.kwakmunsu.diary.member.service.MemberQueryService;
-import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

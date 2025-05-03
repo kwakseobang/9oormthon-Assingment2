@@ -1,10 +1,14 @@
 package com.kwakmunsu.diary.member.service;
 
+import static com.kwakmunsu.diary.util.TimeConverter.datetimeToString;
+
 import com.kwakmunsu.diary.auth.service.dto.MemberLoginServiceRequest;
 import com.kwakmunsu.diary.global.exception.DiaryUnAuthenticationException;
 import com.kwakmunsu.diary.global.exception.dto.ErrorMessage;
 import com.kwakmunsu.diary.member.entity.Member;
+import com.kwakmunsu.diary.member.service.dto.MemberInfoResponse;
 import com.kwakmunsu.diary.member.service.repository.MemberRepository;
+import com.kwakmunsu.diary.util.TimeConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +28,15 @@ public class MemberQueryService {
 
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId);
+    }
+
+    public MemberInfoResponse getMemberInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId);
+        return MemberInfoResponse.builder()
+                .email(member.getEmail())
+                .nickname(member.getNickname())
+                .createdAt(datetimeToString(member.getCreatedAt()))
+                .build();
     }
 
     private void validatePassword(String rawPassword, String encryptedPassword) {

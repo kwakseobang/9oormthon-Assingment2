@@ -1,17 +1,22 @@
 package com.kwakmunsu.diary.member.service;
 
 import static com.kwakmunsu.diary.member.entity.Member.createMember;
+import static com.kwakmunsu.diary.util.TimeConverter.datetimeToString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.kwakmunsu.diary.auth.service.dto.MemberLoginServiceRequest;
 import com.kwakmunsu.diary.global.exception.DiaryNotFoundException;
 import com.kwakmunsu.diary.global.exception.DiaryUnAuthenticationException;
 import com.kwakmunsu.diary.global.exception.dto.ErrorMessage;
 import com.kwakmunsu.diary.member.entity.Member;
+import com.kwakmunsu.diary.member.service.dto.MemberInfoResponse;
 import com.kwakmunsu.diary.member.service.repository.MemberRepository;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,7 +41,6 @@ class MemberQueryServiceTest {
 
     final String testPassword = "12345678";
 
-
     @DisplayName("회원을 반환한다")
     @Test
     void returnMember() {
@@ -55,7 +59,6 @@ class MemberQueryServiceTest {
         assertThat(member.getEmail()).isEqualTo(testEmail);
         assertThat(member.getPassword()).isEqualTo(testPassword);
     }
-
 
     @DisplayName("로그인 시 이메일이 존재하지 않으면 예외를 반환한다.")
     @Test
@@ -97,6 +100,31 @@ class MemberQueryServiceTest {
 
     private Member create() {
         return createMember(testEmail, testPassword, "testNickname");
+    }
+
+    @DisplayName("회원 정보를 가져온다")
+    @Test
+    void getMemberInfo() {
+        // given
+        Long testMemberId = 1L;
+        Member mockMember = createMockMember();
+        given(memberRepository.findById(any(Long.class))).willReturn(mockMember);
+
+        // when
+        MemberInfoResponse response = memberQueryService.getMemberInfo(testMemberId);
+
+        // then
+        assertThat(response).isNotNull();
+        assertThat(response.email()).isEqualTo(mockMember.getEmail());
+        assertThat(response.createdAt()).isEqualTo(datetimeToString(mockMember.getCreatedAt()));
+    }
+
+    private Member createMockMember() {
+        Member mockMember = mock(Member.class);
+        when(mockMember.getEmail()).thenReturn("test@gmail.com");
+        when(mockMember.getNickname()).thenReturn("testNickname");
+        when(mockMember.getCreatedAt()).thenReturn(LocalDateTime.now());
+        return mockMember;
     }
 
 }

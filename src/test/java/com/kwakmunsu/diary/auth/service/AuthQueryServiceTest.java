@@ -7,7 +7,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import com.kwakmunsu.diary.auth.service.dto.MemberLoginServiceRequest;
-import com.kwakmunsu.diary.global.exception.DiaryDuplicationException;
 import com.kwakmunsu.diary.global.exception.DiaryUnAuthenticationException;
 import com.kwakmunsu.diary.global.exception.dto.ErrorMessage;
 import com.kwakmunsu.diary.global.jwt.dto.TokenResponse;
