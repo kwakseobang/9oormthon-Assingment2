@@ -8,4 +8,6 @@ public interface DiaryRepository {
 
     boolean existsByTitle(String title);
 
+    Diary findById(Long diaryId);
+
 }

@@ -6,6 +6,8 @@ import lombok.Builder;
 public record DiaryCreateServiceRequest(
         Long memberId,
 
+        Long diaryId,
+
         String title,
 
         String content,

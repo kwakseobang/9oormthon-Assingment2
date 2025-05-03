@@ -1,5 +1,6 @@
 package com.kwakmunsu.diary.diary.entity;
 
+import com.kwakmunsu.diary.diary.entity.dto.DiaryUpdateDomainRequest;
 import com.kwakmunsu.diary.global.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,19 +35,46 @@ public class Diary extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "access_level", nullable = false)
-    private AccessLevel accessLevel;
+    private AccessScope accessScope;
 
     @Builder
     private Diary(
             Long memberId,
             String title,
             String content,
-            AccessLevel accessLevel
+            AccessScope accessScope
     ) {
         this.memberId = memberId;
         this.title = title;
         this.content = content;
-        this.accessLevel = accessLevel;
+        this.accessScope = accessScope;
+    }
+
+    public void updateDiary(DiaryUpdateDomainRequest request){
+        updateTile(request.title());
+        updateContent(request.content());
+        updateAccessScope(request.accessScope());
+    }
+
+    public void updateTile(String newTitle) {
+        if (newTitle.equals(this.title)) {
+            return;
+        }
+        this.title = newTitle;
+    }
+
+    public void updateContent(String newContent) {
+        if (newContent.equals(this.content)) {
+            return;
+        }
+        this.content = newContent;
+    }
+
+    public void updateAccessScope(AccessScope newAccessScope) {
+        if (accessScope.equals(newAccessScope)) {
+            return;
+        }
+        this.accessScope = newAccessScope;
     }
 
 }

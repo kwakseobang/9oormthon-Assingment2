@@ -1,6 +1,7 @@
 package com.kwakmunsu.diary.diary.controller;
 
 import com.kwakmunsu.diary.diary.controller.dto.DiaryCreateRequest;
+import com.kwakmunsu.diary.diary.controller.dto.DiaryUpdateRequest;
 import com.kwakmunsu.diary.diary.service.DiaryCommandService;
 import com.kwakmunsu.diary.diary.service.DiaryQueryService;
 import com.kwakmunsu.diary.global.annotation.CurrentLoginMember;
@@ -8,6 +9,8 @@ import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +34,17 @@ public class DiaryController {
         URI location = URI.create("/diaries/" + diaryId);
 
         return ResponseEntity.created(location).build();
+    }
+
+    @PatchMapping("/{diaryId}")
+    public ResponseEntity<Void> update(
+            @CurrentLoginMember Long memberId,
+            @PathVariable("diaryId") Long diaryId,
+            @Valid @RequestBody DiaryUpdateRequest request
+    ) {
+        diaryCommandService.update(request.toServiceRequest(memberId, diaryId));
+
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -2,6 +2,8 @@ package com.kwakmunsu.diary.diary.repository;
 
 import com.kwakmunsu.diary.diary.entity.Diary;
 import com.kwakmunsu.diary.diary.service.repository.DiaryRepository;
+import com.kwakmunsu.diary.global.exception.DiaryNotFoundException;
+import com.kwakmunsu.diary.global.exception.dto.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -20,4 +22,13 @@ public class DiaryRepositoryImpl implements DiaryRepository {
     public boolean existsByTitle(String title) {
         return false;
     }
+
+    @Override
+    public Diary findById(Long diaryId) {
+        return diaryJpaRepository.findById(diaryId)
+                .orElseThrow(() -> new DiaryNotFoundException(
+                        ErrorMessage.NOT_FOUND_DIARY.getMessage())
+                );
+    }
+
 }

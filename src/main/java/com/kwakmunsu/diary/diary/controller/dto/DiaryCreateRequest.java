@@ -1,7 +1,7 @@
 package com.kwakmunsu.diary.diary.controller.dto;
 
 import com.kwakmunsu.diary.diary.annotation.EnumValid;
-import com.kwakmunsu.diary.diary.entity.AccessLevel;
+import com.kwakmunsu.diary.diary.entity.AccessScope;
 import com.kwakmunsu.diary.diary.service.dto.DiaryCreateServiceRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +17,7 @@ public record DiaryCreateRequest(
         String content,
 
         @NotNull(message = "값을 입력해주세요")
-        @EnumValid(enumClass = AccessLevel.class, message = "접근 권한은 PUBLIC 또는 PRIVATE 만 가능합니다")
+        @EnumValid(enumClass = AccessScope.class, message = "접근 권한은 PUBLIC 또는 PRIVATE 만 가능합니다")
         String accessLevel // "PUBLIC" || "PRIVATE"
 ) {
 
