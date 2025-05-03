@@ -1,4 +1,4 @@
-package com.kwakmunsu.diary.diary.service.dto;
+package com.kwakmunsu.diary.diary.service.dto.request;
 
 import com.kwakmunsu.diary.diary.entity.AccessScope;
 import com.kwakmunsu.diary.diary.entity.dto.DiaryUpdateDomainRequest;

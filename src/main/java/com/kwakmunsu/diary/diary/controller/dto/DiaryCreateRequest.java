@@ -2,7 +2,7 @@ package com.kwakmunsu.diary.diary.controller.dto;
 
 import com.kwakmunsu.diary.diary.annotation.EnumValid;
 import com.kwakmunsu.diary.diary.entity.AccessScope;
-import com.kwakmunsu.diary.diary.service.dto.DiaryCreateServiceRequest;
+import com.kwakmunsu.diary.diary.service.dto.request.DiaryCreateServiceRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

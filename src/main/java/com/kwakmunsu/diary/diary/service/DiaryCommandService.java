@@ -2,8 +2,8 @@ package com.kwakmunsu.diary.diary.service;
 
 import com.kwakmunsu.diary.diary.entity.AccessScope;
 import com.kwakmunsu.diary.diary.entity.Diary;
-import com.kwakmunsu.diary.diary.service.dto.DiaryCreateServiceRequest;
-import com.kwakmunsu.diary.diary.service.dto.DiaryUpdateServiceRequest;
+import com.kwakmunsu.diary.diary.service.dto.request.DiaryCreateServiceRequest;
+import com.kwakmunsu.diary.diary.service.dto.request.DiaryUpdateServiceRequest;
 import com.kwakmunsu.diary.diary.service.repository.DiaryRepository;
 import com.kwakmunsu.diary.global.exception.DiaryDuplicationException;
 import com.kwakmunsu.diary.global.exception.DiaryUnAuthenticationException;
@@ -47,9 +47,18 @@ public class DiaryCommandService {
         diary.updateDiary(request.toDomainRequest());
     }
 
+    @Transactional
+    public void delete(Long diaryId, Long authorId) {
+        Diary diary = diaryRepository.findById(diaryId);
+
+        validateDiaryOwnership(diary, authorId);
+
+        diaryRepository.deleteById(diaryId);
+    }
+
     private void validateDiaryOwnership(Diary diary, Long authorId) {
         if (!authorId.equals(diary.getMemberId())) {
-            throw new DiaryUnAuthenticationException("수정 권한이 없습니다.");
+            throw new DiaryUnAuthenticationException("수정/삭제 권한이 없습니다.");
         }
     }
 
