@@ -21,7 +21,7 @@ public record DiaryUpdateRequest(
         String accessScope // "PUBLIC" || "PRIVATE"
 ) {
 
-    public DiaryUpdateServiceRequest toServiceRequest(Long memberId, Long diaryId) {
+    public DiaryUpdateServiceRequest toServiceRequest(Long diaryId, Long memberId) {
         return DiaryUpdateServiceRequest.builder()
                 .memberId(memberId)
                 .diaryId(diaryId)

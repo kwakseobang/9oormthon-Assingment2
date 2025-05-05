@@ -4,6 +4,7 @@ import com.kwakmunsu.diary.diary.controller.dto.DiaryCreateRequest;
 import com.kwakmunsu.diary.diary.controller.dto.DiaryUpdateRequest;
 import com.kwakmunsu.diary.diary.service.DiaryCommandService;
 import com.kwakmunsu.diary.diary.service.DiaryQueryService;
+import com.kwakmunsu.diary.diary.service.dto.response.DiaryDetailResponse;
 import com.kwakmunsu.diary.diary.service.dto.response.MyDiaryPreviewResponse;
 import com.kwakmunsu.diary.global.annotation.CurrentLoginMember;
 import jakarta.validation.Valid;
@@ -41,27 +42,38 @@ public class DiaryController {
     }
 
     @GetMapping("/my")
-    public ResponseEntity<List<MyDiaryPreviewResponse>> readAll(@CurrentLoginMember Long memberId) {
+    public ResponseEntity<List<MyDiaryPreviewResponse>> readAllMyDiaries(
+            @CurrentLoginMember Long memberId) {
         List<MyDiaryPreviewResponse> responses = diaryQueryService.getDiariesByMemberId(memberId);
 
         return ResponseEntity.ok(responses);
     }
 
-    @PatchMapping("/{diaryId}")
+    @GetMapping("/my/{id}")
+    public ResponseEntity<DiaryDetailResponse> readMyDiary(
+            @PathVariable("id") Long diaryId,
+            @CurrentLoginMember Long memberId
+    ) {
+        DiaryDetailResponse response = diaryQueryService.getDiary(diaryId, memberId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}")
     public ResponseEntity<Void> update(
+            @PathVariable("id") Long diaryId,
             @CurrentLoginMember Long memberId,
-            @PathVariable("diaryId") Long diaryId,
             @Valid @RequestBody DiaryUpdateRequest request
     ) {
-        diaryCommandService.update(request.toServiceRequest(memberId, diaryId));
+        diaryCommandService.update(request.toServiceRequest(diaryId, memberId));
 
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{diaryId}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
             @CurrentLoginMember Long memberId,
-            @PathVariable("diaryId") Long diaryId
+            @PathVariable("id") Long diaryId
     ) {
         diaryCommandService.delete(diaryId, memberId);
 

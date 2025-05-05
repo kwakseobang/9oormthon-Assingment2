@@ -8,6 +8,8 @@ import com.kwakmunsu.diary.diary.service.repository.DiaryRepository;
 import com.kwakmunsu.diary.global.exception.DiaryDuplicationException;
 import com.kwakmunsu.diary.global.exception.DiaryUnAuthenticationException;
 import com.kwakmunsu.diary.global.exception.dto.ErrorMessage;
+import com.kwakmunsu.diary.member.entity.Member;
+import com.kwakmunsu.diary.member.service.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class DiaryCommandService {
 
     private final DiaryRepository diaryRepository;
+    private final MemberRepository memberRepository;
 
     public Long create(DiaryCreateServiceRequest request) {
         validateTitleUniqueness(request.title());
 
+        Member member = memberRepository.findById(request.memberId());
         Diary diary = Diary.builder()
-                .memberId(request.memberId())
+                .member(member)
                 .title(request.title())
                 .content(request.content())
                 .accessScope(AccessScope.valueOf(request.accessLevel()))
@@ -57,7 +61,7 @@ public class DiaryCommandService {
     }
 
     private void validateDiaryOwnership(Diary diary, Long authorId) {
-        if (!authorId.equals(diary.getMemberId())) {
+        if (diary.isNotAuthor(authorId)) {
             throw new DiaryUnAuthenticationException("수정/삭제 권한이 없습니다.");
         }
     }

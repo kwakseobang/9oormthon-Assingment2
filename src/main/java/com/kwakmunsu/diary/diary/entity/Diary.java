@@ -2,13 +2,17 @@ package com.kwakmunsu.diary.diary.entity;
 
 import com.kwakmunsu.diary.diary.entity.dto.DiaryUpdateDomainRequest;
 import com.kwakmunsu.diary.global.entity.BaseTimeEntity;
+import com.kwakmunsu.diary.member.entity.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,8 +28,9 @@ public class Diary extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "member_id")
-    private Long memberId;
+    @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member;
 
     @Column(nullable = false, unique = true)
     private String title;
@@ -39,12 +44,12 @@ public class Diary extends BaseTimeEntity {
 
     @Builder
     private Diary(
-            Long memberId,
+            Member member,
             String title,
             String content,
             AccessScope accessScope
     ) {
-        this.memberId = memberId;
+        this.member = member;
         this.title = title;
         this.content = content;
         this.accessScope = accessScope;
@@ -75,6 +80,10 @@ public class Diary extends BaseTimeEntity {
             return;
         }
         this.accessScope = newAccessScope;
+    }
+
+    public boolean isNotAuthor(Long authorId) {
+        return member.getId().equals(authorId);
     }
 
 }

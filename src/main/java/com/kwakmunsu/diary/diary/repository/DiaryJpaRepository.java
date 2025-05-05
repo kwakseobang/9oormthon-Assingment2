@@ -10,4 +10,6 @@ public interface DiaryJpaRepository extends JpaRepository<Diary, Long> {
 
     List<Diary> findByMemberId(Long memberId);
 
+    boolean existsByIdAndMemberId(Long id, Long memberId);
+
 }

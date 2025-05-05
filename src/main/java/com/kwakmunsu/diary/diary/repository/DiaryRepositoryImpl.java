@@ -1,6 +1,7 @@
 package com.kwakmunsu.diary.diary.repository;
 
 import com.kwakmunsu.diary.diary.entity.Diary;
+import com.kwakmunsu.diary.diary.service.dto.response.DiaryDetailResponse;
 import com.kwakmunsu.diary.diary.service.repository.DiaryRepository;
 import com.kwakmunsu.diary.global.exception.DiaryNotFoundException;
 import com.kwakmunsu.diary.global.exception.dto.ErrorMessage;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 public class DiaryRepositoryImpl implements DiaryRepository {
 
     private final DiaryJpaRepository diaryJpaRepository;
+    private final DiaryQueryDslRepository diaryQueryDslRepository;
 
     @Override
     public Long save(Diary diary) {
@@ -25,8 +27,21 @@ public class DiaryRepositoryImpl implements DiaryRepository {
     }
 
     @Override
+    public boolean existsByIdAndMemberId(Long diaryId, Long memberId) {
+        return diaryJpaRepository.existsByIdAndMemberId(diaryId, memberId);
+    }
+
+    @Override
     public Diary findById(Long diaryId) {
         return diaryJpaRepository.findById(diaryId)
+                .orElseThrow(() -> new DiaryNotFoundException(
+                        ErrorMessage.NOT_FOUND_DIARY.getMessage())
+                );
+    }
+
+    @Override
+    public DiaryDetailResponse findDiaryDetailById(Long diaryId) {
+        return diaryQueryDslRepository.findById(diaryId)
                 .orElseThrow(() -> new DiaryNotFoundException(
                         ErrorMessage.NOT_FOUND_DIARY.getMessage())
                 );
@@ -39,6 +54,6 @@ public class DiaryRepositoryImpl implements DiaryRepository {
 
     @Override
     public void deleteById(Long diaryId) {
-         diaryJpaRepository.deleteById(diaryId);
+        diaryJpaRepository.deleteById(diaryId);
     }
 }
