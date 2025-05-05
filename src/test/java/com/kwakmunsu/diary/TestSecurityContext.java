@@ -16,10 +16,11 @@ public class TestSecurityContext implements WithSecurityContextFactory<TestMembe
     @Override
     public SecurityContext createSecurityContext(TestMember annotation) {
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + annotation.roles());
+
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + annotation.role());
         String memberId = String.valueOf(annotation.id());
         log.info("memberId: " + memberId);
-        log.info("role: " + annotation.roles());
+        log.info("role: " + annotation.role());
 
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
