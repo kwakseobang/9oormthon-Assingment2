@@ -6,6 +6,7 @@ import com.kwakmunsu.diary.diary.service.DiaryCommandService;
 import com.kwakmunsu.diary.diary.service.DiaryQueryService;
 import com.kwakmunsu.diary.diary.service.dto.response.DiaryDetailResponse;
 import com.kwakmunsu.diary.diary.service.dto.response.MyDiaryPreviewResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.PublicDiaryPreviewResponse;
 import com.kwakmunsu.diary.global.annotation.CurrentLoginMember;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -43,7 +44,8 @@ public class DiaryController {
 
     @GetMapping("/my")
     public ResponseEntity<List<MyDiaryPreviewResponse>> readAllMyDiaries(
-            @CurrentLoginMember Long memberId) {
+            @CurrentLoginMember Long memberId
+    ) {
         List<MyDiaryPreviewResponse> responses = diaryQueryService.getDiariesByMemberId(memberId);
 
         return ResponseEntity.ok(responses);
@@ -57,6 +59,13 @@ public class DiaryController {
         DiaryDetailResponse response = diaryQueryService.getDiary(diaryId, memberId);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/public")
+    public ResponseEntity<List<PublicDiaryPreviewResponse>> readAllPublicDiaries() {
+        List<PublicDiaryPreviewResponse> responses = diaryQueryService.getDiariesByPublic();
+
+        return ResponseEntity.ok(responses);
     }
 
     @PatchMapping("/{id}")

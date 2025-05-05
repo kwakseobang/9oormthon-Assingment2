@@ -2,6 +2,7 @@ package com.kwakmunsu.diary.diary.service.repository;
 
 import com.kwakmunsu.diary.diary.entity.Diary;
 import com.kwakmunsu.diary.diary.service.dto.response.DiaryDetailResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.PublicDiaryPreviewResponse;
 import java.util.List;
 
 public interface DiaryRepository {
@@ -13,6 +14,8 @@ public interface DiaryRepository {
     boolean existsByIdAndMemberId(Long diaryId, Long memberId);
 
     Diary findById(Long diaryId);
+
+    List<PublicDiaryPreviewResponse> findByPublic();
 
     DiaryDetailResponse findDiaryDetailById(Long diaryId);
 

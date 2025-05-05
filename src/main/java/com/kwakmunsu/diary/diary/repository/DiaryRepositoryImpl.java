@@ -2,6 +2,7 @@ package com.kwakmunsu.diary.diary.repository;
 
 import com.kwakmunsu.diary.diary.entity.Diary;
 import com.kwakmunsu.diary.diary.service.dto.response.DiaryDetailResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.PublicDiaryPreviewResponse;
 import com.kwakmunsu.diary.diary.service.repository.DiaryRepository;
 import com.kwakmunsu.diary.global.exception.DiaryNotFoundException;
 import com.kwakmunsu.diary.global.exception.dto.ErrorMessage;
@@ -37,6 +38,11 @@ public class DiaryRepositoryImpl implements DiaryRepository {
                 .orElseThrow(() -> new DiaryNotFoundException(
                         ErrorMessage.NOT_FOUND_DIARY.getMessage())
                 );
+    }
+
+    @Override
+    public List<PublicDiaryPreviewResponse> findByPublic() {
+        return diaryQueryDslRepository.findByPublic();
     }
 
     @Override

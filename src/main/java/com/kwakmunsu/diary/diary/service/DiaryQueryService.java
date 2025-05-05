@@ -1,10 +1,9 @@
 package com.kwakmunsu.diary.diary.service;
 
-import static com.kwakmunsu.diary.util.TimeConverter.datetimeToString;
-
 import com.kwakmunsu.diary.diary.entity.Diary;
 import com.kwakmunsu.diary.diary.service.dto.response.DiaryDetailResponse;
 import com.kwakmunsu.diary.diary.service.dto.response.MyDiaryPreviewResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.PublicDiaryPreviewResponse;
 import com.kwakmunsu.diary.diary.service.repository.DiaryRepository;
 import com.kwakmunsu.diary.global.exception.DiaryUnAuthenticationException;
 import com.kwakmunsu.diary.member.service.repository.MemberRepository;
@@ -24,6 +23,10 @@ public class DiaryQueryService {
         return diaries.stream()
                 .map(MyDiaryPreviewResponse::from)
                 .toList();
+    }
+
+    public List<PublicDiaryPreviewResponse> getDiariesByPublic() {
+       return diaryRepository.findByPublic();
     }
 
     public DiaryDetailResponse getDiary(Long diaryId, Long memberId) {
