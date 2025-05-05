@@ -53,6 +53,14 @@ public class DiaryRepositoryImpl implements DiaryRepository {
     }
 
     @Override
+    public DiaryPaginationResponse<PublicDiaryPreviewResponse> search(
+            Long diaryId,
+            String keyword
+    ) {
+        return diaryQueryDslRepository.searchPublicDiaries(keyword, diaryId);
+    }
+
+    @Override
     public DiaryDetailResponse findDiaryDetailById(Long diaryId) {
         return diaryQueryDslRepository.findById(diaryId)
                 .orElseThrow(() -> new DiaryNotFoundException(

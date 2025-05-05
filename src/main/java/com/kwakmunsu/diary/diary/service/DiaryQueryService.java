@@ -8,8 +8,10 @@ import com.kwakmunsu.diary.diary.service.dto.response.publicdiary.PublicDiaryPre
 import com.kwakmunsu.diary.diary.service.repository.DiaryRepository;
 import com.kwakmunsu.diary.global.exception.DiaryUnAuthenticationException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class DiaryQueryService {
@@ -24,7 +26,7 @@ public class DiaryQueryService {
     }
 
     public DiaryPaginationResponse<PublicDiaryPreviewResponse> getDiariesByPublic(Long diaryId) {
-       return diaryRepository.findByPublic(diaryId);
+        return diaryRepository.findByPublic(diaryId);
     }
 
     public DiaryDetailResponse getDiary(Long diaryId, Long memberId) {
@@ -43,6 +45,13 @@ public class DiaryQueryService {
         validateDiaryPublic(diaryId);
 
         return diaryRepository.findDiaryDetailById(diaryId);
+    }
+
+    public DiaryPaginationResponse<PublicDiaryPreviewResponse> search(
+            Long diaryId,
+            String keyword
+    ) {
+        return diaryRepository.search(diaryId, keyword);
     }
 
     private void validateDiaryPublic(Long diaryId) {

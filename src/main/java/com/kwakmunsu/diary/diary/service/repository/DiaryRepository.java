@@ -21,6 +21,8 @@ public interface DiaryRepository {
 
     DiaryPaginationResponse<PublicDiaryPreviewResponse> findByPublic(Long diaryId);
 
+    DiaryPaginationResponse<PublicDiaryPreviewResponse> search(Long diaryId, String keyword);
+
     DiaryDetailResponse findDiaryDetailById(Long diaryId);
 
     void deleteById(Long diaryId);

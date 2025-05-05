@@ -11,6 +11,7 @@ import com.kwakmunsu.diary.diary.service.dto.response.publicdiary.PublicDiaryPre
 import com.kwakmunsu.diary.global.annotation.CurrentLoginMember;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -98,12 +99,12 @@ public class DiaryController {
         return ResponseEntity.noContent().build();
     }
 
-//    @GetMapping("/search")
-//    public ResponseEntity<List<PublicDiaryPreviewResponse>> search(
-//            @RequestParam("title") String title
-//    ) {
-//        TodoReadResponse response = diaryQueryService.search(request);
-//        return ResponseEntity.ok(response);
-//    }
+    @GetMapping("/search")
+    public ResponseEntity<DiaryPaginationResponse<PublicDiaryPreviewResponse>> search(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "lastDiaryId", required = false) Long lastDiaryId
+    ) {
+        return ResponseEntity.ok(diaryQueryService.search(lastDiaryId, keyword));
+    }
 
 }
