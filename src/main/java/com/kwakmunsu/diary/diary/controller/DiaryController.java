@@ -11,7 +11,6 @@ import com.kwakmunsu.diary.diary.service.dto.response.publicdiary.PublicDiaryPre
 import com.kwakmunsu.diary.global.annotation.CurrentLoginMember;
 import jakarta.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -76,7 +75,6 @@ public class DiaryController {
 
         return ResponseEntity.ok(response);
     }
-
 
     @PatchMapping("/{id}")
     public ResponseEntity<Void> update(
