@@ -16,8 +16,7 @@ public record DiaryUpdateRequest(
         @NotBlank(message = "변경하실 일기 내용을 입력해주세요")
         String content,
 
-        @NotNull(message = "변경하실 공개 범위 값을 입력해주세요")
-        @EnumValid(enumClass = AccessScope.class, message = "접근 권한은 PUBLIC 또는 PRIVATE 만 가능합니다")
+        @EnumValid(enumClass = AccessScope.class, message = "PUBLIC 또는 PRIVATE 를 정확히 입력해주세요")
         String accessScope // "PUBLIC" || "PRIVATE"
 ) {
 

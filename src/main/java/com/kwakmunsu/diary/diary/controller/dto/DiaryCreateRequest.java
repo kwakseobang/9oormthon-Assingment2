@@ -16,9 +16,8 @@ public record DiaryCreateRequest(
         @NotBlank(message = "일기 내용을 입력해주세요")
         String content,
 
-        @NotNull(message = "값을 입력해주세요")
-        @EnumValid(enumClass = AccessScope.class, message = "접근 권한은 PUBLIC 또는 PRIVATE 만 가능합니다")
-        String accessLevel // "PUBLIC" || "PRIVATE"
+        @EnumValid(enumClass = AccessScope.class, message = "PUBLIC 또는 PRIVATE 를 정확히 입력해주세요")
+        String accessScope // "PUBLIC" || "PRIVATE"
 ) {
 
     public DiaryCreateServiceRequest toServiceRequest(Long memberId) {
@@ -26,7 +25,7 @@ public record DiaryCreateRequest(
                 .memberId(memberId)
                 .title(title)
                 .content(content)
-                .accessLevel(accessLevel)
+                .accessScope(accessScope)
                 .build();
     }
 
