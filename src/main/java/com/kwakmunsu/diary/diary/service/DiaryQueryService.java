@@ -1,14 +1,12 @@
 package com.kwakmunsu.diary.diary.service;
 
 import com.kwakmunsu.diary.diary.entity.AccessScope;
-import com.kwakmunsu.diary.diary.entity.Diary;
 import com.kwakmunsu.diary.diary.service.dto.response.DiaryDetailResponse;
-import com.kwakmunsu.diary.diary.service.dto.response.MyDiaryPreviewResponse;
-import com.kwakmunsu.diary.diary.service.dto.response.PublicDiaryPreviewResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.DiaryPaginationResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.my.MyDiaryPreviewResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.publicdiary.PublicDiaryPreviewResponse;
 import com.kwakmunsu.diary.diary.service.repository.DiaryRepository;
 import com.kwakmunsu.diary.global.exception.DiaryUnAuthenticationException;
-import com.kwakmunsu.diary.member.service.repository.MemberRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +15,16 @@ import org.springframework.stereotype.Service;
 public class DiaryQueryService {
 
     private final DiaryRepository diaryRepository;
-    private final MemberRepository memberRepository;
 
-    public List<MyDiaryPreviewResponse> getDiariesByMemberId(Long memberId) {
-        List<Diary> diaries = diaryRepository.findByMemberId(memberId);
-        return diaries.stream()
-                .map(MyDiaryPreviewResponse::from)
-                .toList();
+    public DiaryPaginationResponse<MyDiaryPreviewResponse> getDiariesByMemberId(
+            Long diaryId,
+            Long memberId
+    ) {
+        return diaryRepository.findByMemberId(diaryId, memberId);
     }
 
-    public List<PublicDiaryPreviewResponse> getDiariesByPublic() {
-       return diaryRepository.findByPublic();
+    public DiaryPaginationResponse<PublicDiaryPreviewResponse> getDiariesByPublic(Long diaryId) {
+       return diaryRepository.findByPublic(diaryId);
     }
 
     public DiaryDetailResponse getDiary(Long diaryId, Long memberId) {

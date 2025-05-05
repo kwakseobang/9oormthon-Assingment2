@@ -3,8 +3,9 @@ package com.kwakmunsu.diary.diary.service.repository;
 import com.kwakmunsu.diary.diary.entity.AccessScope;
 import com.kwakmunsu.diary.diary.entity.Diary;
 import com.kwakmunsu.diary.diary.service.dto.response.DiaryDetailResponse;
-import com.kwakmunsu.diary.diary.service.dto.response.PublicDiaryPreviewResponse;
-import java.util.List;
+import com.kwakmunsu.diary.diary.service.dto.response.DiaryPaginationResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.my.MyDiaryPreviewResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.publicdiary.PublicDiaryPreviewResponse;
 
 public interface DiaryRepository {
 
@@ -18,12 +19,12 @@ public interface DiaryRepository {
 
     Diary findById(Long diaryId);
 
-    List<PublicDiaryPreviewResponse> findByPublic();
+    DiaryPaginationResponse<PublicDiaryPreviewResponse> findByPublic(Long diaryId);
 
     DiaryDetailResponse findDiaryDetailById(Long diaryId);
 
     void deleteById(Long diaryId);
 
-    List<Diary> findByMemberId(Long memberId);
+    DiaryPaginationResponse<MyDiaryPreviewResponse> findByMemberId(Long diaryId, Long memberId);
 
 }

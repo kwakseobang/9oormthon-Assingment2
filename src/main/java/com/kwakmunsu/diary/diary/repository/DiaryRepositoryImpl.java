@@ -3,11 +3,12 @@ package com.kwakmunsu.diary.diary.repository;
 import com.kwakmunsu.diary.diary.entity.AccessScope;
 import com.kwakmunsu.diary.diary.entity.Diary;
 import com.kwakmunsu.diary.diary.service.dto.response.DiaryDetailResponse;
-import com.kwakmunsu.diary.diary.service.dto.response.PublicDiaryPreviewResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.DiaryPaginationResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.my.MyDiaryPreviewResponse;
+import com.kwakmunsu.diary.diary.service.dto.response.publicdiary.PublicDiaryPreviewResponse;
 import com.kwakmunsu.diary.diary.service.repository.DiaryRepository;
 import com.kwakmunsu.diary.global.exception.DiaryNotFoundException;
 import com.kwakmunsu.diary.global.exception.dto.ErrorMessage;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -47,8 +48,8 @@ public class DiaryRepositoryImpl implements DiaryRepository {
     }
 
     @Override
-    public List<PublicDiaryPreviewResponse> findByPublic() {
-        return diaryQueryDslRepository.findByPublic();
+    public DiaryPaginationResponse<PublicDiaryPreviewResponse> findByPublic(Long diaryId) {
+        return diaryQueryDslRepository.findByPublic(diaryId);
     }
 
     @Override
@@ -60,12 +61,16 @@ public class DiaryRepositoryImpl implements DiaryRepository {
     }
 
     @Override
-    public List<Diary> findByMemberId(Long memberId) {
-        return diaryJpaRepository.findByMemberId(memberId);
+    public DiaryPaginationResponse<MyDiaryPreviewResponse> findByMemberId(
+            Long diaryId,
+            Long memberId
+    ) {
+        return diaryQueryDslRepository.findDiariesByMemberId(diaryId, memberId);
     }
 
     @Override
     public void deleteById(Long diaryId) {
         diaryJpaRepository.deleteById(diaryId);
     }
+
 }
