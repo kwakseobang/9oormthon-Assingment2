@@ -20,7 +20,6 @@ import com.kwakmunsu.diary.auth.service.AuthQueryService;
 import com.kwakmunsu.diary.global.exception.DiaryDuplicationException;
 import com.kwakmunsu.diary.global.exception.DiaryUnAuthenticationException;
 import com.kwakmunsu.diary.global.jwt.dto.TokenResponse;
-import com.kwakmunsu.diary.global.jwt.token.JwtProvider;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -45,12 +43,6 @@ class AuthControllerTest {
 
     @MockBean
     private AuthQueryService authQueryService;
-
-    @MockBean
-    private JpaMetamodelMappingContext jpaMetamodelMappingContext;
-
-    @MockBean
-    private JwtProvider jwtProvider; // jwtfilter 떄문에 등록
 
     @Autowired
     private MockMvc mockMvc;

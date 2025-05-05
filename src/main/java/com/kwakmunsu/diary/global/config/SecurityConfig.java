@@ -3,9 +3,11 @@ package com.kwakmunsu.diary.global.config;
 import static com.kwakmunsu.diary.member.entity.Role.ADMIN;
 import static com.kwakmunsu.diary.member.entity.Role.MEMBER;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kwakmunsu.diary.global.jwt.filter.JwtFilter;
 import com.kwakmunsu.diary.global.jwt.handler.JwtAccessDeniedHandler;
 import com.kwakmunsu.diary.global.jwt.handler.JwtAuthenticationEntryPoint;
+import com.kwakmunsu.diary.global.jwt.token.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +27,8 @@ public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-    private final JwtFilter jwtFilter;
+    private final JwtProvider jwtProvider;
+    private final ObjectMapper objectMapper;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -47,11 +50,14 @@ public class SecurityConfig {
                         .requestMatchers("/", "/error", "/auth/**").permitAll()
                         .requestMatchers("/admin/**").hasRole(ADMIN.name())
                         .requestMatchers("/diaries/**", "/members/**")
-                            .hasAnyRole(ADMIN.name(), MEMBER.name())
+                        .hasAnyRole(ADMIN.name(), MEMBER.name())
                         .anyRequest().authenticated());
 
         http
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(
+                        new JwtFilter(jwtProvider, objectMapper),
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         http
                 .exceptionHandling(handle -> handle

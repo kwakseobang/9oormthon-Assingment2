@@ -25,7 +25,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
