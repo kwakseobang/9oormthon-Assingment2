@@ -68,6 +68,16 @@ public class DiaryController {
         return ResponseEntity.ok(responses);
     }
 
+    @GetMapping("/public/{id}")
+    public ResponseEntity<DiaryDetailResponse> readPublicDiary(
+            @PathVariable("id") Long diaryId
+    ) {
+        DiaryDetailResponse response = diaryQueryService.getDiaryByAccessScope(diaryId);
+
+        return ResponseEntity.ok(response);
+    }
+
+
     @PatchMapping("/{id}")
     public ResponseEntity<Void> update(
             @PathVariable("id") Long diaryId,

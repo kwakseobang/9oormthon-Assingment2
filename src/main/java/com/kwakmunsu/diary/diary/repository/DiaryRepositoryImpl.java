@@ -1,5 +1,6 @@
 package com.kwakmunsu.diary.diary.repository;
 
+import com.kwakmunsu.diary.diary.entity.AccessScope;
 import com.kwakmunsu.diary.diary.entity.Diary;
 import com.kwakmunsu.diary.diary.service.dto.response.DiaryDetailResponse;
 import com.kwakmunsu.diary.diary.service.dto.response.PublicDiaryPreviewResponse;
@@ -30,6 +31,11 @@ public class DiaryRepositoryImpl implements DiaryRepository {
     @Override
     public boolean existsByIdAndMemberId(Long diaryId, Long memberId) {
         return diaryJpaRepository.existsByIdAndMemberId(diaryId, memberId);
+    }
+
+    @Override
+    public boolean existsByIdAndAccessScope(Long diaryId, AccessScope accessScope) {
+        return diaryJpaRepository.existsByIdAndAccessScope(diaryId, accessScope);
     }
 
     @Override
