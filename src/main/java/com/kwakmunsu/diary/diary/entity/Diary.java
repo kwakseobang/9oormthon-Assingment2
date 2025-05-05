@@ -83,7 +83,7 @@ public class Diary extends BaseTimeEntity {
     }
 
     public boolean isNotAuthor(Long authorId) {
-        return member.getId().equals(authorId);
+        return !member.getId().equals(authorId);
     }
 
 }
