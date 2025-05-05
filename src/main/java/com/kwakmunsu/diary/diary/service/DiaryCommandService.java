@@ -29,7 +29,7 @@ public class DiaryCommandService {
                 .member(member)
                 .title(request.title())
                 .content(request.content())
-                .accessScope(AccessScope.valueOf(request.accessLevel()))
+                .accessScope(AccessScope.valueOf(request.accessScope()))
                 .build();
 
         return diaryRepository.save(diary);
