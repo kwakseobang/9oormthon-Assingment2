@@ -61,21 +61,21 @@ public class Diary extends BaseTimeEntity {
         updateAccessScope(request.accessScope());
     }
 
-    public void updateTile(String newTitle) {
+    private void updateTile(String newTitle) {
         if (newTitle.equals(this.title)) {
             return;
         }
         this.title = newTitle;
     }
 
-    public void updateContent(String newContent) {
+    private void updateContent(String newContent) {
         if (newContent.equals(this.content)) {
             return;
         }
         this.content = newContent;
     }
 
-    public void updateAccessScope(AccessScope newAccessScope) {
+    private void updateAccessScope(AccessScope newAccessScope) {
         if (accessScope.equals(newAccessScope)) {
             return;
         }
